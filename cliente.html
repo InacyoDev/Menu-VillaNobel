@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0E2F2A" />
+    <meta
+      name="description"
+      content="Villa Nobel: sistema de atendimento e cardápio digital."
+    />
+    <meta
+      property="og:title"
+      content="Villa Nobel: atendimento e cardápio digital"
+    />
+    <meta
+      property="og:description"
+      content="Chamado de garçom, pedidos e cardápio em um só lugar."
+    />
+    <meta property="og:type" content="website" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E2F2A'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='40' fill='%23F3F4F0'%3EV%3C/text%3E%3C/svg%3E"
+    />
+    <title>Villa Nobel | Cliente</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body class="cmd-body" data-perfil="cliente">
+    <div class="d-flex flex-column flex-md-row min-vh-100">
+      <aside class="cmd-sidebar p-3 d-flex flex-column gap-3">
+        <div class="cmd-marca px-2">
+          <span class="cmd-logo">Villa Nobel</span>
+          <span class="cmd-marca-tipo">Restaurante</span>
+        </div>
+
+        <nav
+          class="nav nav-pills flex-md-column gap-1"
+          role="tablist"
+          aria-label="Menu do cliente"
+        >
+          <button
+            class="nav-link active"
+            id="tab-cardapio"
+            data-bs-toggle="pill"
+            data-bs-target="#aba-cardapio"
+            type="button"
+            role="tab"
+            aria-controls="aba-cardapio"
+            aria-selected="true"
+          >
+            <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10"
+              />
+            </svg>
+            <span>Cardápio</span>
+          </button>
+          <button
+            class="nav-link"
+            id="tab-chamar"
+            data-bs-toggle="pill"
+            data-bs-target="#aba-chamar"
+            type="button"
+            role="tab"
+            aria-controls="aba-chamar"
+            aria-selected="false"
+          >
+            <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4" />
+            </svg>
+            <span>Chamar garçom</span>
+          </button>
+        </nav>
+
+        <div class="mt-md-auto pt-3 border-top cmd-sidebar-rodape">
+          <div class="cmd-texto-claro small">Olá,</div>
+          <div class="fw-semibold js-nome-usuario">Cliente</div>
+          <button
+            type="button"
+            class="btn btn-link p-0 cmd-link-claro"
+            id="btn-sair"
+          >
+            Sair
+          </button>
+        </div>
+      </aside>
+
+      <main class="flex-grow-1 p-3 p-md-5 cmd-conteudo">
+        <div class="tab-content">
+          <section
+            class="tab-pane fade show active"
+            id="aba-cardapio"
+            role="tabpanel"
+            aria-labelledby="tab-cardapio"
+          >
+            <div class="cmd-hero">
+              <div class="cmd-hero-texto">
+                <h1 class="cmd-titulo-pagina mb-1">Cardápio</h1>
+                <span
+                  class="cmd-hero-apoio"
+                  id="busca-contagem"
+                  aria-live="polite"
+                ></span>
+              </div>
+            </div>
+
+            <div class="cmd-barra-filtros">
+              <div
+                id="filtro-categorias"
+                class="d-flex flex-wrap gap-2"
+                role="group"
+                aria-label="Filtrar por categoria"
+              ></div>
+              <div class="cmd-busca">
+                <label for="busca-cardapio" class="visually-hidden"
+                  >Buscar no cardápio</label
+                >
+                <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="11" cy="11" r="6" />
+                  <path d="m20 20-4.5-4.5" />
+                </svg>
+                <input
+                  type="search"
+                  id="busca-cardapio"
+                  class="form-control"
+                  placeholder="Buscar prato ou bebida  ( / )"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <div id="lista-cardapio" class="row g-3"></div>
+            <p id="cardapio-vazio" class="cmd-texto-apoio d-none">
+              Nenhum item disponível nesta categoria.
+            </p>
+            <p id="busca-vazia" class="cmd-texto-apoio d-none">
+              Nada encontrado para essa busca. Tente outra palavra.
+            </p>
+          </section>
+
+          <section
+            class="tab-pane fade"
+            id="aba-chamar"
+            role="tabpanel"
+            aria-labelledby="tab-chamar"
+          >
+            <h1 class="cmd-titulo-pagina mb-1">Chamar garçom</h1>
+            <p class="cmd-texto-apoio mb-4">
+              Informe a sua mesa. Os atendentes e o administrador recebem o
+              aviso na hora.
+            </p>
+
+            <div class="row g-4">
+              <div class="col-12 col-md-6">
+                <div class="card cmd-card">
+                  <div class="card-body">
+                    <form id="form-chamado" novalidate>
+                      <div class="mb-3">
+                        <label for="chamado-mesa" class="form-label"
+                          >Número da mesa</label
+                        >
+                        <div class="cmd-stepper">
+                          <button
+                            type="button"
+                            class="btn btn-outline-dark"
+                            id="mesa-menos"
+                            aria-label="Diminuir número da mesa"
+                          >
+                            −
+                          </button>
+                          <input
+                            type="number"
+                            class="form-control form-control-lg cmd-input-mesa"
+                            id="chamado-mesa"
+                            min="1"
+                            placeholder="7"
+                            required
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-outline-dark"
+                            id="mesa-mais"
+                            aria-label="Aumentar número da mesa"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <div class="form-text" id="mesa-lembrada" hidden></div>
+                      </div>
+
+                      <fieldset class="mb-3">
+                        <legend class="form-label fs-6">
+                          Motivo (opcional)
+                        </legend>
+                        <div class="d-flex flex-wrap gap-2">
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="motivo"
+                            id="motivo-conta"
+                            value="Conta"
+                            autocomplete="off"
+                            checked
+                          />
+                          <label
+                            class="btn btn-outline-dark rounded-pill"
+                            for="motivo-conta"
+                            ><svg
+                              class="cmd-icone"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2zM9 9h6M9 13h6"
+                              /></svg
+                            >Conta</label
+                          >
+
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="motivo"
+                            id="motivo-duvida"
+                            value="Dúvida"
+                            autocomplete="off"
+                          />
+                          <label
+                            class="btn btn-outline-dark rounded-pill"
+                            for="motivo-duvida"
+                            ><svg
+                              class="cmd-icone"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <circle cx="12" cy="12" r="9" />
+                              <path
+                                d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"
+                              /></svg
+                            >Dúvida</label
+                          >
+
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="motivo"
+                            id="motivo-agua"
+                            value="Água"
+                            autocomplete="off"
+                          />
+                          <label
+                            class="btn btn-outline-dark rounded-pill"
+                            for="motivo-agua"
+                            ><svg
+                              class="cmd-icone"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <path
+                                d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"
+                              /></svg
+                            >Água</label
+                          >
+
+                          <input
+                            type="radio"
+                            class="btn-check"
+                            name="motivo"
+                            id="motivo-outro"
+                            value="Outro"
+                            autocomplete="off"
+                          />
+                          <label
+                            class="btn btn-outline-dark rounded-pill"
+                            for="motivo-outro"
+                            ><svg
+                              class="cmd-icone"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
+                            >
+                              <path d="M5 12h.01M12 12h.01M19 12h.01" /></svg
+                            >Outro</label
+                          >
+                        </div>
+                      </fieldset>
+
+                      <div
+                        id="chamado-erro"
+                        class="alert alert-danger d-none"
+                        role="alert"
+                      ></div>
+                      <button
+                        type="submit"
+                        class="btn btn-lg w-100 cmd-btn-principal"
+                        id="btn-chamar-garcom"
+                      >
+                        Chamar garçom
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="card cmd-card" id="card-ultimo-chamado">
+                  <div class="card-body">
+                    <div
+                      class="d-flex justify-content-between align-items-center mb-2"
+                    >
+                      <h2 class="h6 mb-0">Seu último chamado</h2>
+                      <span
+                        class="badge cmd-status js-status-chamado"
+                        id="status-chamado"
+                        >Nenhum</span
+                      >
+                    </div>
+                    <p
+                      class="cmd-texto-apoio mb-3 js-resumo-chamado"
+                      id="resumo-chamado"
+                    >
+                      Você ainda não fez nenhum chamado.
+                    </p>
+
+                    <ol class="cmd-passos list-unstyled d-flex gap-2 mb-0">
+                      <li
+                        class="cmd-passo flex-fill js-passo"
+                        data-passo="aberto"
+                      >
+                        Enviado
+                      </li>
+                      <li
+                        class="cmd-passo flex-fill js-passo"
+                        data-passo="em_atendimento"
+                      >
+                        Em atendimento
+                      </li>
+                      <li
+                        class="cmd-passo flex-fill js-passo"
+                        data-passo="atendido"
+                      >
+                        Atendido
+                      </li>
+                    </ol>
+
+                    <div class="text-center">
+                      <button
+                        type="button"
+                        class="btn cmd-btn-cancelar mt-3 d-none"
+                        id="btn-cancelar-chamado"
+                      >
+                        Cancelar chamado
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <template id="tpl-item-cardapio">
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card cmd-card h-100 cmd-item">
+          <div class="card-body d-flex gap-3">
+            <img class="cmd-item-foto js-foto" src="" alt="" />
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between gap-2">
+                <h2 class="h6 mb-1 js-nome"></h2>
+                <span class="cmd-preco js-preco"></span>
+              </div>
+              <p class="cmd-texto-apoio small mb-1 js-descricao"></p>
+              <span class="badge cmd-categoria js-categoria"></span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cliente.js"></script>
+    <script src="js/villa-ux.js"></script>
+  </body>
+</html>

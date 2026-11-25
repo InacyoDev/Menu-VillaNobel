@@ -1,0 +1,711 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0E2F2A" />
+    <meta
+      name="description"
+      content="Villa Nobel: sistema de atendimento e cardápio digital."
+    />
+    <meta
+      property="og:title"
+      content="Villa Nobel: atendimento e cardápio digital"
+    />
+    <meta
+      property="og:description"
+      content="Chamado de garçom, pedidos e cardápio em um só lugar."
+    />
+    <meta property="og:type" content="website" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E2F2A'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='40' fill='%23F3F4F0'%3EV%3C/text%3E%3C/svg%3E"
+    />
+    <title>Villa Nobel | Administrador</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body class="cmd-body" data-perfil="admin">
+    <div class="d-flex flex-column flex-md-row min-vh-100">
+      <aside class="cmd-sidebar p-3 d-flex flex-column gap-3">
+        <div class="cmd-marca px-2">
+          <span class="cmd-logo">Villa Nobel</span>
+          <span class="cmd-marca-tipo">Restaurante</span>
+        </div>
+
+        <nav
+          class="nav nav-pills flex-md-column gap-1"
+          role="tablist"
+          aria-label="Menu do administrador"
+        >
+          <button
+            class="nav-link active"
+            id="tab-visao-geral"
+            data-bs-toggle="pill"
+            data-bs-target="#aba-visao-geral"
+            type="button"
+            role="tab"
+            aria-controls="aba-visao-geral"
+            aria-selected="true"
+          >
+            <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 13h6V4H4zM14 20h6V4h-6zM4 20h6v-3H4z" />
+            </svg>
+            <span>Visão geral</span>
+          </button>
+          <button
+            class="nav-link"
+            id="tab-cardapio"
+            data-bs-toggle="pill"
+            data-bs-target="#aba-cardapio"
+            type="button"
+            role="tab"
+            aria-controls="aba-cardapio"
+            aria-selected="false"
+          >
+            <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10"
+              />
+            </svg>
+            <span>Cardápio</span>
+          </button>
+          <button
+            class="nav-link"
+            id="tab-usuarios"
+            data-bs-toggle="pill"
+            data-bs-target="#aba-usuarios"
+            type="button"
+            role="tab"
+            aria-controls="aba-usuarios"
+            aria-selected="false"
+          >
+            <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M16 20v-1a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6M20 20v-1a3 3 0 0 0-2-2.8"
+              />
+            </svg>
+            <span>Usuários</span>
+          </button>
+        </nav>
+
+        <div class="mt-md-auto pt-3 border-top cmd-sidebar-rodape">
+          <div class="fw-semibold js-nome-usuario">Administrador</div>
+          <button
+            type="button"
+            class="btn btn-link p-0 cmd-link-claro"
+            id="btn-sair"
+          >
+            Sair
+          </button>
+        </div>
+      </aside>
+
+      <main class="flex-grow-1 p-3 p-md-5 cmd-conteudo">
+        <div class="tab-content">
+          <section
+            class="tab-pane fade show active"
+            id="aba-visao-geral"
+            role="tabpanel"
+            aria-labelledby="tab-visao-geral"
+          >
+            <h1 class="cmd-titulo-pagina mb-4">Visão geral</h1>
+            <div class="row g-3">
+              <div class="col-6 col-lg-3">
+                <div class="card cmd-card">
+                  <div class="card-body">
+                    <div class="cmd-texto-apoio small">Chamados abertos</div>
+                    <div class="cmd-numero-grande" id="resumo-chamados">0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-3">
+                <div class="card cmd-card">
+                  <div class="card-body">
+                    <div class="cmd-texto-apoio small">Pedidos na fila</div>
+                    <div class="cmd-numero-grande" id="resumo-pedidos">0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-3">
+                <div class="card cmd-card">
+                  <div class="card-body">
+                    <div class="cmd-texto-apoio small">Itens no cardápio</div>
+                    <div class="cmd-numero-grande" id="resumo-itens">0</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-3">
+                <div class="card cmd-card">
+                  <div class="card-body">
+                    <div class="cmd-texto-apoio small">Atendentes ativos</div>
+                    <div class="cmd-numero-grande" id="resumo-atendentes">
+                      0
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3 mt-1" id="painel-resumo">
+              <div class="col-12 col-xl-5">
+                <section
+                  class="card cmd-card h-100"
+                  aria-labelledby="titulo-ult-chamados"
+                >
+                  <div class="card-body">
+                    <div
+                      class="d-flex justify-content-between align-items-center mb-3"
+                    >
+                      <h2 class="h5 mb-0" id="titulo-ult-chamados">
+                        Últimos chamados
+                      </h2>
+                      <span
+                        class="cmd-texto-apoio small"
+                        id="ult-chamados-hora"
+                      ></span>
+                    </div>
+                    <ul
+                      class="cmd-lista-atividade list-unstyled mb-0"
+                      id="ult-chamados"
+                    ></ul>
+                  </div>
+                </section>
+              </div>
+              <div class="col-12 col-md-6 col-xl-4">
+                <section
+                  class="card cmd-card h-100"
+                  aria-labelledby="titulo-fila-status"
+                >
+                  <div class="card-body">
+                    <h2 class="h5 mb-3" id="titulo-fila-status">
+                      Fila do balcão
+                    </h2>
+                    <div class="cmd-barras" id="barras-fila"></div>
+                  </div>
+                </section>
+              </div>
+              <div class="col-12 col-md-6 col-xl-3">
+                <section
+                  class="card cmd-card h-100"
+                  aria-labelledby="titulo-por-categoria"
+                >
+                  <div class="card-body">
+                    <h2 class="h5 mb-3" id="titulo-por-categoria">
+                      Cardápio por categoria
+                    </h2>
+                    <div class="cmd-barras" id="barras-categorias"></div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="tab-pane fade"
+            id="aba-cardapio"
+            role="tabpanel"
+            aria-labelledby="tab-cardapio"
+          >
+            <div
+              class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4"
+            >
+              <h1 class="cmd-titulo-pagina mb-0">Cardápio</h1>
+              <button
+                type="button"
+                class="btn cmd-btn-principal"
+                id="btn-novo-item"
+              >
+                Novo item
+              </button>
+            </div>
+
+            <div class="row g-4 align-items-start">
+              <div class="col-12 col-xxl-8">
+                <div
+                  class="cmd-busca cmd-busca-tabela mb-3"
+                  data-busca-tabela="corpo-cardapio"
+                >
+                  <label for="busca-itens" class="visually-hidden"
+                    >Buscar item</label
+                  >
+                  <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="6" />
+                    <path d="m20 20-4.5-4.5" />
+                  </svg>
+                  <input
+                    type="search"
+                    id="busca-itens"
+                    class="form-control"
+                    placeholder="Buscar item ou categoria"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="card cmd-card">
+                  <div class="table-responsive">
+                    <table
+                      class="table align-middle mb-0 cmd-tabela"
+                      id="tabela-cardapio"
+                    >
+                      <thead>
+                        <tr>
+                          <th scope="col">Item</th>
+                          <th scope="col">Categoria</th>
+                          <th scope="col">Preço</th>
+                          <th scope="col">Status</th>
+                          <th scope="col" class="text-end">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="corpo-cardapio"></tbody>
+                    </table>
+                  </div>
+                </div>
+                <p id="cardapio-vazio" class="cmd-texto-apoio mt-3 d-none">
+                  Nenhum item cadastrado.
+                </p>
+              </div>
+
+              <div class="col-12 col-xxl-4">
+                <form id="form-item" class="card cmd-card" novalidate>
+                  <div class="card-body d-flex flex-column gap-3">
+                    <h2 class="h5 mb-0" id="titulo-form-item">Novo item</h2>
+                    <input type="hidden" id="item-id" />
+
+                    <div>
+                      <label for="item-nome" class="form-label">Nome</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="item-nome"
+                        required
+                      />
+                    </div>
+                    <div class="row g-3">
+                      <div class="col-7">
+                        <label for="item-categoria" class="form-label"
+                          >Categoria</label
+                        >
+                        <select
+                          class="form-select"
+                          id="item-categoria"
+                          required
+                        >
+                          <option value="Entradas">Entradas</option>
+                          <option value="Petiscos">Petiscos</option>
+                          <option value="Pratos">Pratos</option>
+                          <option value="Drinks">Drinks</option>
+                          <option value="Sobremesas">Sobremesas</option>
+                        </select>
+                      </div>
+                      <div class="col-5">
+                        <label for="item-preco" class="form-label">Preço</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="item-preco"
+                          min="0"
+                          step="0.01"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label for="item-descricao" class="form-label"
+                        >Descrição</label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="item-descricao"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                    <fieldset class="cmd-ficha-campos" id="ficha-prato">
+                      <legend class="form-label mb-1">Ficha do prato</legend>
+                      <p class="cmd-texto-apoio small mb-2">
+                        Aparece no cardápio do cliente. Conte do que é feito e o
+                        que há de especial, sem entregar a receita.
+                      </p>
+                      <div class="mb-2">
+                        <label
+                          for="item-ingredientes"
+                          class="form-label small mb-1"
+                          >Ingredientes</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="item-ingredientes"
+                          placeholder="Ex.: bacalhau, batata, salsa"
+                        />
+                      </div>
+                      <div class="mb-2">
+                        <label for="item-preparo" class="form-label small mb-1"
+                          >Como é preparado</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="item-preparo"
+                          placeholder="Ex.: modelado à mão e frito na hora"
+                        />
+                      </div>
+                      <div class="row g-2">
+                        <div class="col-5">
+                          <label for="item-tempo" class="form-label small mb-1"
+                            >Tempo</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="item-tempo"
+                            placeholder="Ex.: 15 min"
+                          />
+                        </div>
+                        <div class="col-7">
+                          <label
+                            for="item-diferencial"
+                            class="form-label small mb-1"
+                            >Diferencial</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="item-diferencial"
+                            placeholder="Ex.: molho da casa"
+                          />
+                        </div>
+                      </div>
+                    </fieldset>
+                    <div id="zona-imagem">
+                      <span class="form-label d-block" id="rotulo-imagem"
+                        >Imagem (opcional)</span
+                      >
+                      <input type="url" class="d-none" id="item-imagem" />
+
+                      <label
+                        class="cmd-zona-area"
+                        id="zona-imagem-area"
+                        for="item-imagem-arquivo"
+                      >
+                        <span class="cmd-zona-texto">
+                          <svg
+                            class="cmd-icone"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"
+                            />
+                          </svg>
+                          <strong>Arraste uma imagem até aqui</strong>
+                          <span
+                            >ou clique para escolher do computador. Também dá
+                            para colar (Ctrl+V).</span
+                          >
+                        </span>
+                        <input
+                          type="file"
+                          class="visually-hidden"
+                          id="item-imagem-arquivo"
+                          accept="image/*"
+                        />
+                      </label>
+
+                      <div class="d-flex gap-2 mt-2">
+                        <input
+                          type="url"
+                          class="form-control form-control-sm"
+                          id="item-imagem-link"
+                          placeholder="ou cole um link: https://..."
+                          aria-label="Link da imagem"
+                        />
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-outline-secondary text-nowrap"
+                          id="item-imagem-remover"
+                          hidden
+                        >
+                          Remover
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="item-disponivel"
+                        checked
+                      />
+                      <label class="form-check-label" for="item-disponivel"
+                        >Disponível</label
+                      >
+                    </div>
+
+                    <div
+                      id="item-erro"
+                      class="alert alert-danger d-none mb-0"
+                      role="alert"
+                    ></div>
+                    <div class="d-flex gap-2">
+                      <button
+                        type="submit"
+                        class="btn flex-fill cmd-btn-principal"
+                        id="btn-salvar-item"
+                      >
+                        Salvar
+                      </button>
+                      <button
+                        type="button"
+                        class="btn flex-fill btn-outline-secondary"
+                        id="btn-cancelar-item"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="tab-pane fade"
+            id="aba-usuarios"
+            role="tabpanel"
+            aria-labelledby="tab-usuarios"
+          >
+            <div
+              class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-2"
+            >
+              <div>
+                <h1 class="cmd-titulo-pagina mb-1">Usuários</h1>
+                <span class="cmd-texto-apoio"
+                  >Equipe e clientes cadastrados.</span
+                >
+              </div>
+              <button
+                type="button"
+                class="btn cmd-btn-principal"
+                id="btn-novo-usuario"
+              >
+                Novo usuário
+              </button>
+            </div>
+
+            <div
+              class="d-flex flex-wrap gap-2 my-3"
+              id="filtro-usuarios"
+              role="group"
+              aria-label="Filtrar usuários"
+            >
+              <button
+                type="button"
+                class="btn btn-sm rounded-pill active js-filtro"
+                data-perfil="todos"
+              >
+                Todos
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm rounded-pill js-filtro"
+                data-perfil="atendente"
+              >
+                Atendentes
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm rounded-pill js-filtro"
+                data-perfil="cliente"
+              >
+                Clientes
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm rounded-pill js-filtro"
+                data-perfil="admin"
+              >
+                Admins
+              </button>
+            </div>
+
+            <div class="row g-4 align-items-start">
+              <div class="col-12 col-xxl-8">
+                <div
+                  class="cmd-busca cmd-busca-tabela mb-3"
+                  data-busca-tabela="corpo-usuarios"
+                >
+                  <label for="busca-usuarios" class="visually-hidden"
+                    >Buscar usuário</label
+                  >
+                  <svg class="cmd-icone" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="6" />
+                    <path d="m20 20-4.5-4.5" />
+                  </svg>
+                  <input
+                    type="search"
+                    id="busca-usuarios"
+                    class="form-control"
+                    placeholder="Buscar por nome ou e-mail"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="card cmd-card">
+                  <div class="table-responsive">
+                    <table
+                      class="table align-middle mb-0 cmd-tabela"
+                      id="tabela-usuarios"
+                    >
+                      <thead>
+                        <tr>
+                          <th scope="col">Nome</th>
+                          <th scope="col">E-mail</th>
+                          <th scope="col">Perfil</th>
+                          <th scope="col">Status</th>
+                          <th scope="col" class="text-end">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody id="corpo-usuarios"></tbody>
+                    </table>
+                  </div>
+                </div>
+                <p id="usuarios-vazio" class="cmd-texto-apoio mt-3 d-none">
+                  Nenhum usuário encontrado.
+                </p>
+              </div>
+
+              <div class="col-12 col-xxl-4">
+                <form id="form-usuario" class="card cmd-card" novalidate>
+                  <div class="card-body d-flex flex-column gap-3">
+                    <h2 class="h5 mb-0" id="titulo-form-usuario">
+                      Novo usuário
+                    </h2>
+                    <input type="hidden" id="usuario-id" />
+
+                    <div>
+                      <label for="usuario-nome" class="form-label">Nome</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="usuario-nome"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label for="usuario-email" class="form-label"
+                        >E-mail</label
+                      >
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="usuario-email"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label for="usuario-senha" class="form-label"
+                        >Senha provisória</label
+                      >
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="usuario-senha"
+                        minlength="6"
+                      />
+                    </div>
+                    <div>
+                      <label for="usuario-perfil" class="form-label"
+                        >Perfil</label
+                      >
+                      <select class="form-select" id="usuario-perfil" required>
+                        <option value="atendente">Atendente</option>
+                        <option value="admin">Administrador</option>
+                      </select>
+                    </div>
+
+                    <div
+                      id="usuario-erro"
+                      class="alert alert-danger d-none mb-0"
+                      role="alert"
+                    ></div>
+                    <div class="d-flex gap-2">
+                      <button
+                        type="submit"
+                        class="btn flex-fill cmd-btn-principal"
+                        id="btn-salvar-usuario"
+                      >
+                        Criar conta
+                      </button>
+                      <button
+                        type="button"
+                        class="btn flex-fill btn-outline-secondary"
+                        id="btn-cancelar-usuario"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <template id="tpl-linha-item">
+      <tr>
+        <td class="fw-semibold js-nome"></td>
+        <td class="js-categoria"></td>
+        <td class="js-preco"></td>
+        <td><span class="badge cmd-status js-status"></span></td>
+        <td class="text-end text-nowrap">
+          <button type="button" class="btn btn-sm btn-link js-editar">
+            Editar
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-link text-secondary js-excluir"
+          >
+            Excluir
+          </button>
+        </td>
+      </tr>
+    </template>
+
+    <template id="tpl-linha-usuario">
+      <tr>
+        <td class="fw-semibold js-nome"></td>
+        <td class="js-email"></td>
+        <td class="js-perfil"></td>
+        <td><span class="badge cmd-status js-status"></span></td>
+        <td class="text-end text-nowrap">
+          <button type="button" class="btn btn-sm btn-link js-editar">
+            Editar
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-link text-secondary js-ativar"
+          >
+            Desativar
+          </button>
+        </td>
+      </tr>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/villa-ux.js"></script>
+  </body>
+</html>
